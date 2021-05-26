@@ -6,12 +6,11 @@ import net.dv8tion.jda.api.events.Event;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import src.Bot;
 import src.commands.Command;
-import src.events.MessageEvent;
 
-public class Start extends Command {
+public class Prefix extends Command {
 
-    public Start() {
-        super("start", "Starts a story on the current active channel.", "start");
+    public Prefix() {
+        super("prefix", "Set or get the bot prefix.", "prefix || prefix <new prefix>");
     }
 
     @Override
@@ -19,20 +18,17 @@ public class Start extends Command {
         if (event instanceof MessageReceivedEvent) {
             MessageReceivedEvent e = (MessageReceivedEvent) event;
 
-            if (!MessageEvent.active) {
-                MessageEvent.messages.clear();
-                MessageEvent.active = true;
-
+            if (args.length == 1) {
                 EmbedBuilder embed = new EmbedBuilder();
-                embed.setTitle("One Word Story");
-                embed.setDescription("Story started on " + e.getChannel().getName());
+                embed.setTitle("Current Prefix: " + Bot.prefix);
                 embed.setColor(0x3333ff);
 
                 e.getChannel().sendMessage(embed.build()).queue();
-            } else {
+            } else if (args.length == 2) {
+                Bot.prefix = args[1];
+
                 EmbedBuilder embed = new EmbedBuilder();
-                embed.setTitle("Story In Progress");
-                embed.setDescription("Story active on channel: " + Bot.currentActiveChannel.getName());
+                embed.setTitle("Set Prefix To: " + Bot.prefix);
                 embed.setColor(0x3333ff);
 
                 e.getChannel().sendMessage(embed.build()).queue();

@@ -22,26 +22,33 @@ public class Finish extends Command {
             MessageReceivedEvent e = (MessageReceivedEvent) event;
 
             if (e.getChannel().equals(Bot.currentActiveChannel)) {
-                StringBuilder sb = new StringBuilder();
+                if (MessageEvent.active) {
+                    StringBuilder sb = new StringBuilder();
 
-                for (Message msg : MessageEvent.messages) {
-                    String word = msg.getContentRaw() + " "; // declare local var to make string builder shut up
-                    sb.append(word);
+                    for (Message msg : MessageEvent.messages) {
+                        String word = msg.getContentRaw() + " "; // declare local var to make string builder shut up
+                        sb.append(word);
+                    }
+
+                    finalStory = sb.toString();
+
+                    EmbedBuilder embed = new EmbedBuilder();
+                    embed.setTitle("Story: " + e.getChannel().getName());
+                    embed.setDescription(finalStory);
+                    embed.setColor(0x3333ff);
+
+                    e.getChannel().sendMessage(embed.build()).queue();
+
+                    MessageEvent.active = false;
+                    MessageEvent.messages.clear();
+                } else {
+                    EmbedBuilder embed = new EmbedBuilder();
+                    embed.setTitle("No Active Story");
+                    embed.setDescription("Start a story with " + Bot.prefix + "start");
+                    embed.setColor(0x3333ff);
+
+                    e.getChannel().sendMessage(embed.build()).queue();
                 }
-
-                finalStory = sb.toString();
-
-                EmbedBuilder embed = new EmbedBuilder();
-                embed.setTitle("Story: " + e.getChannel().getName());
-                embed.setDescription(finalStory);
-                embed.setColor(0x3333ff);
-
-                e.getChannel().sendMessage(embed.build()).queue();
-
-                MessageEvent.active = false;
-                MessageEvent.messages.clear();
-                Bot.currentActiveChannel = null;
-
             } else {
                 e.getChannel().sendMessage("This is not the active channel.").queue();
             }
