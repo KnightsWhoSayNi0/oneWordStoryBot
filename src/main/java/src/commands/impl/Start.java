@@ -22,6 +22,7 @@ public class Start extends Command {
             if (!MessageEvent.active) {
                 MessageEvent.messages.clear();
                 MessageEvent.active = true;
+                Bot.currentActiveChannel = e.getChannel();
 
                 EmbedBuilder embed = new EmbedBuilder();
                 embed.setTitle("One Word Story");
