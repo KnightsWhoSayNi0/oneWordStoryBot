@@ -16,7 +16,7 @@ import java.util.List;
 public class Bot {
 
     public static JDA jda;
-    public static String prefix = "]";
+    public static String prefix = "\\";
     public static CommandManager commandManager;
 
     public static MessageChannel currentActiveChannel;

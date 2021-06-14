@@ -63,7 +63,7 @@ public class Settings extends Command {
                     embed.setColor(0x3333ff);
 
                     for (Member m : Bot.playerList) {
-                        embed.addField(m.getEffectiveName(), "", true);
+                        embed.addField(m.getEffectiveName(), "", false);
                     }
 
                     e.getChannel().sendMessage(embed.build()).queue();
