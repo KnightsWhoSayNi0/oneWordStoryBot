@@ -30,6 +30,8 @@ public class Help extends Command {
                 embed.addField(c.getName(), "Description: " + c.getDescription() + "\n Syntax: " + c.getSyntax(), true);
             }
 
+            embed.addField("Github", "For more info, check out the github: https://github.com/KnightsWhoSayNi0/oneWordStoryBot", false);
+
             e.getChannel().sendMessage(embed.build()).queue();
         }
     }
