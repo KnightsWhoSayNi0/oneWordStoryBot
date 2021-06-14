@@ -11,7 +11,6 @@ import java.util.List;
 public class MessageEvent extends ListenerAdapter {
 
     public static List<Message> messages = new ArrayList<Message>();
-    public static boolean active = false;
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
@@ -24,11 +23,25 @@ public class MessageEvent extends ListenerAdapter {
 
         if (args[0].startsWith(Bot.prefix)) {
             Bot.commandManager.handleCommands(args, e);
-        } else if (active && Bot.currentActiveChannel != null && msg.getChannel().equals(Bot.currentActiveChannel)){
+        } else if (Bot.active && Bot.currentActiveChannel != null && msg.getChannel().equals(Bot.currentActiveChannel)){
             if (msg.getContentRaw().contains(" ")) {
                 msg.delete().queue();
             } else {
-                messages.add(msg);
+                if (Bot.mode == Bot.Mode.FREETYPE) {
+                    messages.add(msg);
+                } else {
+                    if (Bot.playerList.isEmpty())
+                        return;
+
+                    if (e.getAuthor() == Bot.playerList.get(Bot.currentPlayerIndex).getUser()) {
+                        messages.add(msg);
+                        if (Bot.currentPlayerIndex < Bot.playerList.size()) {
+                            Bot.currentPlayerIndex++;
+                        } else {
+                            Bot.currentPlayerIndex = 0;
+                        }
+                    }
+                }
             }
         }
     }

@@ -1,7 +1,6 @@
 package src.commands.impl;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.Event;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import src.Bot;
@@ -19,9 +18,9 @@ public class Start extends Command {
         if (event instanceof MessageReceivedEvent) {
             MessageReceivedEvent e = (MessageReceivedEvent) event;
 
-            if (!MessageEvent.active) {
+            if (!Bot.active) {
                 MessageEvent.messages.clear();
-                MessageEvent.active = true;
+                Bot.active = true;
                 Bot.currentActiveChannel = e.getChannel();
 
                 EmbedBuilder embed = new EmbedBuilder();

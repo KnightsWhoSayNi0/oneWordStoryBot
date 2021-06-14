@@ -22,11 +22,16 @@ public class Finish extends Command {
             MessageReceivedEvent e = (MessageReceivedEvent) event;
 
             if (e.getChannel().equals(Bot.currentActiveChannel)) {
-                if (MessageEvent.active) {
+                if (Bot.active) {
                     StringBuilder sb = new StringBuilder();
 
                     for (Message msg : MessageEvent.messages) {
-                        String word = msg.getContentRaw() + " "; // declare local var to make string builder shut up
+                        String word = msg.getContentRaw() + " "; // period detection
+                        if (MessageEvent.messages.indexOf(msg) != MessageEvent.messages.size()) {
+                            if (MessageEvent.messages.get(MessageEvent.messages.indexOf(msg) + 1).getContentRaw().equals(".")) {
+                                word = msg.getContentRaw();
+                            }
+                        }
                         sb.append(word);
                     }
 
@@ -39,7 +44,7 @@ public class Finish extends Command {
 
                     e.getChannel().sendMessage(embed.build()).queue();
 
-                    MessageEvent.active = false;
+                    Bot.active = false;
                     MessageEvent.messages.clear();
                 } else {
                     EmbedBuilder embed = new EmbedBuilder();

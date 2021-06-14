@@ -5,12 +5,11 @@ import net.dv8tion.jda.api.events.Event;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import src.Bot;
 import src.commands.Command;
-import src.events.MessageEvent;
 
-public class SetChannel extends Command {
+public class Channel extends Command {
 
-    public SetChannel() {
-        super("set", "Sets the active channel. (Clears current story)", "set");
+    public Channel() {
+        super("channel", "Returns the current active channel.", "channel");
     }
 
     @Override
@@ -19,12 +18,13 @@ public class SetChannel extends Command {
 
             MessageReceivedEvent e = (MessageReceivedEvent) event;
 
-            Bot.currentActiveChannel = e.getChannel();
-            MessageEvent.messages.clear();
-
             EmbedBuilder embed = new EmbedBuilder();
-            embed.setTitle("Set the active channel to this channel.");
-            embed.setDescription("Current Channel: " + e.getChannel().getName());
+            embed.setTitle("Current Active Channel: ");
+            try {
+                embed.setDescription(Bot.currentActiveChannel.getName());
+            } catch (NullPointerException nullPointerException) {
+                embed.setDescription("No active channel.");
+            }
             embed.setColor(0x3333ff);
 
             e.getChannel().sendMessage(embed.build()).queue();

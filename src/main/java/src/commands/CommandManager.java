@@ -3,7 +3,6 @@ package src.commands;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.Event;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import src.Bot;
 import src.commands.impl.*;
 
 import java.util.ArrayList;
@@ -21,8 +20,8 @@ public class CommandManager {
     public void setup() { // add commands
         commands.add(new Help());
         commands.add(new Prefix());
-        commands.add(new SetChannel());
-        commands.add(new GetChannel());
+        commands.add(new Settings());
+        commands.add(new Channel());
         //commands.add(new CreateChannel()); // TODO fix create command
         commands.add(new Start());
         commands.add(new Finish());
